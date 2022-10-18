@@ -140,6 +140,10 @@ public class PlayerController : MonoBehaviour
         //I found that the physics call was interrupting very low ground slams and so going straight to animation from input means you can ground slam from lower
         if(fastFallDoubleClick) { myAnimator.SetBool(IS_FAST_FALLING, true); } //handles ground slam part 1
         if(IsGrounded()) {
+            //if we are grounded and fastfalling is still true we will intitiate groundshake
+            //fastFalling will be set to false right after so that this method can only be called at one frame and not continuously
+            //Singleton is for ease of access
+            if (isFastFalling) { CameraShake.Instance.ShakeCamera(); } 
             myAnimator.SetBool(IS_FAST_FALLING, false); 
             isFastFalling = false;
         } //handles ground slam part 2 and ground slam exit
@@ -203,8 +207,8 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded() && Input.GetKeyDown("space") && isGroundSlamAnimationEvent == false && isDashAnimationEvent == false && isCrouching == false && isUpLooking == false) { singleJumpClick = true; }
 
         //double jump input as well as Nth jump input
-        //can't jump while fastFalling
-        if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false)
+        //can't jump while fastFalling or dashing
+        if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false && isDashAnimationEvent == false)
         {
             if (isDoubleJumping == false && !IsGrounded() && Input.GetKeyDown("space")) { doubleJumpClick = true; numberOfDoubleJumps++; }
         }
@@ -375,6 +379,12 @@ public class PlayerController : MonoBehaviour
         {
             mySpriteRenderer.flipX = false;
         }
+    }
+
+    //used to communicate to CameraShake script when a groundslam occurs to trigger camera shake
+    public bool GetGroundSlameAnimationEvent()
+    {
+        return isGroundSlamAnimationEvent;
     }
 
     //this function is called in the player's dashing animation as an animation event

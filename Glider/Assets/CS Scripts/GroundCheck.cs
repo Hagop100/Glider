@@ -6,7 +6,7 @@ public class GroundCheck : MonoBehaviour
 {
     [SerializeField] private LayerMask platformLayerMask;
 
-    public bool isGrounded;
+    [HideInInspector] public bool isGrounded;
     
 
     private void OnTriggerEnter2D(Collider2D collision)

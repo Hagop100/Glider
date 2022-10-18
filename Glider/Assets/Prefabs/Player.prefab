@@ -1,5 +1,99 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &867691474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867691475}
+  - component: {fileID: 867691476}
+  m_Layer: 0
+  m_Name: FootCollider1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &867691475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867691474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7318713258171552869}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &867691476
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867691474}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 5b90c6f990eb81f4ca87c601e987729b, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.20121887, y: 0.20361042}
+  m_Size: {x: 0.11288887, y: 0.43867302}
+  m_Direction: 0
+--- !u!1 &1823977671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823977672}
+  - component: {fileID: 1823977673}
+  m_Layer: 0
+  m_Name: FootCollider2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1823977672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823977671}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7318713258171552869}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1823977673
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823977671}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 5b90c6f990eb81f4ca87c601e987729b, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.17041846, y: 0.20361042}
+  m_Size: {x: 0.09372577, y: 0.43867302}
+  m_Direction: 0
 --- !u!1 &7318713258171552871
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,7 +128,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 867691475}
+  - {fileID: 1823977672}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -121,7 +217,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -165,12 +261,12 @@ MonoBehaviour:
   dashSpeedLimit: 15
   rollSpeed: 3
   jumpSpeed: 8
-  fastFallSpeed: 20
+  fastFallSpeed: 25
   groundCheck: {fileID: 2054268542}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  dashNumberLimit: 1
+  dashNumberLimit: 3
   doubleJumpNumberLimit: 3
   doubleClickDownTime: 0.2
 --- !u!61 &946834998
@@ -186,7 +282,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.020860314, y: 0.114825934}
+  m_Offset: {x: -0.0136199, y: 0.11331758}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -197,7 +293,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.40306783, y: 0.25666136}
+  m_Size: {x: 0.3716936, y: 0.25967807}
   m_EdgeRadius: 0
 --- !u!60 &2054268543
 PolygonCollider2D:
@@ -230,8 +326,8 @@ PolygonCollider2D:
       - {x: 0.023660183, y: 0.21990675}
       - {x: -0.019829035, y: 0.2089988}
       - {x: -0.00922966, y: 0.20954669}
-      - {x: -0.22291088, y: -0.012298048}
-      - {x: 0.18381333, y: -0.012643814}
+      - {x: -0.19982815, y: -0.017669022}
+      - {x: 0.17305005, y: -0.017665803}
       - {x: 0.1011858, y: 0.12229115}
       - {x: 0.070694685, y: 0.16885895}
       - {x: 0.04453969, y: 0.18385834}
