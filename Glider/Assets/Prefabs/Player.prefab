@@ -261,7 +261,7 @@ MonoBehaviour:
   dashSpeedLimit: 15
   rollSpeed: 3
   jumpSpeed: 8
-  fastFallSpeed: 25
+  fastFallSpeed: 30
   groundCheck: {fileID: 2054268542}
   groundLayerMask:
     serializedVersion: 2
