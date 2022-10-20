@@ -192,8 +192,11 @@ public class PlayerController : MonoBehaviour
         //on the ground however, you are free to dash as much as you like
         if (numberOfDashes < dashNumberLimit)
         {
+            //We had issues with dash input being read during the fast fall
+            //It turns out I had to check two booleans because one is activated in the inputManager (fastFallDoubleClick) and the other in the FixedUpdate (isFastFalling)
+            //This creates sloppy code and requires revising for cleaner code
             //Mathf.Abs(moveHorizontal) was added because we were able to dash in the air without pressing left or right, causing stationary dashes
-            if ((isRunning && isRollAnimationEvent == false) || (Mathf.Abs(moveHorizontal) == 1 && !IsGrounded()))
+            if ((isRunning && isRollAnimationEvent == false && (isFastFalling == false || fastFallDoubleClick == false) && isGroundSlamAnimationEvent == false) || (Mathf.Abs(moveHorizontal) == 1 && !IsGrounded()))
             {
                 //input can only be checked if the animation has NOT begun yet (this prevents player from spamming and buffering)
                 if (isDashAnimationEvent == false && Input.GetMouseButtonDown(0)) { dashClick = true; numberOfDashes++; }

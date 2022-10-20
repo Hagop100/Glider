@@ -21,29 +21,29 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: ff86cd811e2d3cd46bde4a1448cb5536, type: 3}
-    - time: 0.041666668
+    - time: 0.03125
       value: {fileID: 21300000, guid: a96868f9778f786419f015abdf5baf94, type: 3}
-    - time: 0.083333336
+    - time: 0.0625
       value: {fileID: 21300000, guid: 016dc95c1235934408cb47c83f5fc804, type: 3}
-    - time: 0.125
+    - time: 0.09375
       value: {fileID: 21300000, guid: d3d3559e654429a4c8b5e2a2fc9f9ec1, type: 3}
-    - time: 0.16666667
+    - time: 0.125
       value: {fileID: 21300000, guid: 313cb2997fe6a2b459478347155575ba, type: 3}
-    - time: 0.20833333
+    - time: 0.15625
       value: {fileID: 21300000, guid: 33a6804145f400542ae9f9ca815bde6a, type: 3}
-    - time: 0.25
+    - time: 0.1875
       value: {fileID: 21300000, guid: d4381b35b0a46934ba879defa9769070, type: 3}
-    - time: 0.29166666
+    - time: 0.21875
       value: {fileID: 21300000, guid: e60a837b8fe83644fac19380c3d86ba9, type: 3}
-    - time: 0.33333334
+    - time: 0.25
       value: {fileID: 21300000, guid: b762d195c298d4e47ac993b50b165844, type: 3}
-    - time: 0.375
+    - time: 0.28125
       value: {fileID: 21300000, guid: 0d70b4ecb7c095244bc7fa3883812255, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 24
+  m_SampleRate: 32
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -73,7 +73,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.41666666
+    m_StopTime: 0.3125
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -100,7 +100,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.41666666
+  - time: 0.3125
     functionName: SetRollAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
