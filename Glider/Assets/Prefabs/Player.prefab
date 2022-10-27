@@ -259,15 +259,15 @@ MonoBehaviour:
   groundSlamFriction: 100
   dashSpeed: 7
   dashSpeedLimit: 15
-  rollSpeed: 3
-  jumpSpeed: 8
+  rollSpeed: 5
+  jumpSpeed: 9
   fastFallSpeed: 30
   groundCheck: {fileID: 2054268542}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  dashNumberLimit: 3
-  doubleJumpNumberLimit: 3
+  dashNumberLimit: 2
+  doubleJumpNumberLimit: 2
   doubleClickDownTime: 0.2
 --- !u!61 &946834998
 BoxCollider2D:
