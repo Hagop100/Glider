@@ -17,4 +17,9 @@ public class DeathZone : MonoBehaviour
     {
         player.transform.position = startPlayerPosition;
     }
+
+    public void ResetPlayerPosition(Vector2 checkPointPosition)
+    {
+        startPlayerPosition = checkPointPosition;
+    }
 }
