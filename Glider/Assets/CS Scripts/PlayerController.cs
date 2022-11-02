@@ -95,17 +95,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InputManager();
-        AnimatorManager();
+        if(!LevelController.IsGamePaused()) //if the game is not paused then we want to check for input
+        {
+            InputManager();
+            AnimatorManager();
 
-        if (isDashAnimationEvent) { EnforceDashSpeedLimit(); }
-        else { EnforceSpeedLimit(); }
+            if (isDashAnimationEvent) { EnforceDashSpeedLimit(); }
+            else { EnforceSpeedLimit(); }
 
-        CrouchFriction();
+            CrouchFriction();
 
-        if (IsGrounded()) { 
-            ResetDashCount();
-            ResetDoubleJumpCount();
+            if (IsGrounded())
+            {
+                ResetDashCount();
+                ResetDoubleJumpCount();
+            }
         }
     }
 
