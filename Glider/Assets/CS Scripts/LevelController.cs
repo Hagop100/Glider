@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
     [SerializeField] private Canvas endGameCanvas;
+    [SerializeField] private Text levelText;
 
     // Start is called before the first frame update
     void Start()
     {
-        ResumeGame();
-        endGameCanvas.enabled = false;
+        ResumeGame(); //sets Time.timeScale to 1
+        DisableEndGameCanvas(); //disable endGameCanvas
+        SetLevelText(); //sets the level number text
     }
 
     //Function for Try Again button
@@ -50,5 +53,18 @@ public class LevelController : MonoBehaviour
     public static bool IsGamePaused()
     {
         return Time.timeScale == 0;
+    }
+
+    public static void GoToNextLevel()
+    {
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentScene + 1);
+    }
+
+    private void SetLevelText()
+    {
+        int sceneNumber = SceneManager.GetActiveScene().buildIndex;
+        sceneNumber++;
+        levelText.text = "Level: " + sceneNumber;
     }
 }
