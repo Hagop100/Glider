@@ -241,13 +241,23 @@ public class PlayerController : MonoBehaviour
         //can't jump while fastFalling or dashing
         if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false && isDashAnimationEvent == false && isRollAnimationEvent == false)
         {
-            if (isDoubleJumping == false && !IsGrounded() && Input.GetKeyDown("space")) { doubleJumpClick = true; numberOfDoubleJumps++; }
+            if (isDoubleJumping == false && !IsGrounded() && Input.GetKeyDown("space")) { 
+                doubleJumpClick = true;
+                numberOfDoubleJumps++; 
+            }
+        }
+        //double jump input but only for fastFall Canceling
+        else if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false && isRollAnimationEvent == true && isFastFallCanceling == true)
+        {
+            if (isDoubleJumping == false && !IsGrounded() && Input.GetKeyDown("space")) { 
+                doubleJumpClick = true; 
+                numberOfDoubleJumps++;
+            }
         }
 
-        
         //fast fall management (double click 's')
         //ground slam
-        if(!IsGrounded() && isDashAnimationEvent == false)
+        if (!IsGrounded() && isDashAnimationEvent == false)
         {
             if(Input.GetKeyDown(KeyCode.S))
             {
@@ -411,7 +421,8 @@ public class PlayerController : MonoBehaviour
 
     private void FastFallCancelRollPhysics()
     {
-        if(mySpriteRenderer.flipX == true)
+        myRigidBody2D.velocity = new Vector2(myRigidBody2D.velocity.x, 0f); //makes roll go straight ahead in the air rather than fall down
+        if (mySpriteRenderer.flipX == true)
         {
             myRigidBody2D.AddForce(new Vector2(-fastFallCancelRollSpeed, 0f), ForceMode2D.Impulse);
         }
