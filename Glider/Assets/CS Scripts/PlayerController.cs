@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
      * 5.) Fixed bugs while moving on ground (Solved)
      */
 
-    [SerializeField] private float horizontalMovementSpeed = 2f; //dictates horizontal movement speed in inspector
+    [SerializeField] private float horizontalMovementSpeed = 2f; //dictates horizontal movement speed in inspector GROUNDED MOVEMENT ONLY
+    [SerializeField] private float aerialHorizontalMovementSpeed = 2f; //dictates aerial horizontal movement speed in inspector AERIAL MOVEMENT ONLY
     [SerializeField] private float horizontalSpeedLimit = 10f; //running speed limit
     [SerializeField] private float friction = 20f;
     [SerializeField] private float crouchFriction = 40f;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int dashNumberLimit = 1;
     [SerializeField] private int doubleJumpNumberLimit = 1;
     [SerializeField] private float doubleClickDownTime = 0.5f;
+    [SerializeField] private float rayCastDistance = 5f;
+    [SerializeField] private float fastFallCancelRollSpeed = 20f;
 
     //keyboard input variables
     private float moveHorizontal; //input to move left and right (value is +1/-1 at right and left respectively)
@@ -36,12 +39,13 @@ public class PlayerController : MonoBehaviour
     private bool singleJumpClick = false; //input for single jumping
     private bool doubleJumpClick = false; //input for double jumping
     private bool fastFallDoubleClick = false;
+    private bool fastFallCancelRollClick = false;
 
     //Game Object Components
     private Rigidbody2D myRigidBody2D;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
-    private BoxCollider2D myBoxCollider2D;
+    private BoxCollider2D myBoxCollider2D; 
 
     //Animator String Literals
     private const string IS_RUNNING = "isRunning";
@@ -53,7 +57,9 @@ public class PlayerController : MonoBehaviour
     private const string TRIGGER_DASH = "triggerDash";
     private const string TRIGGER_NTH_JUMP = "triggerNthJump";
     private const string IS_FAST_FALLING = "isFastFalling";
-    private const string TRIGGER_GROUND_SLAM = "triggerGroundSlam";
+    //private const string TRIGGER_GROUND_SLAM = "triggerGroundSlam";
+    //private const string IS_FAST_FALL_CANCELING = "isFastFallCanceling";
+    //private const string FAST_FALL_CANCEL = "fastFallCancel";
 
     //AnimationBinding for booleans
     private bool isRunning = false;
@@ -61,6 +67,7 @@ public class PlayerController : MonoBehaviour
     private bool isCrouching = false;
     private bool isDoubleJumping = false;
     private bool isFastFalling = false;
+    private bool isFastFallCanceling = false;
 
     //Animation Event Variables
     private bool isDashAnimationEvent = false;
@@ -76,6 +83,9 @@ public class PlayerController : MonoBehaviour
 
     //Vector2
     private Vector2 zeroVector = new Vector2(0f, 0f);
+
+    //RayCast
+    RaycastHit2D rayCastHit2D;
 
 
     private void Awake()
@@ -142,14 +152,25 @@ public class PlayerController : MonoBehaviour
         //GroundSlam/FastFall Animation Handling
         //Order of operations for this goes Input -> Animator -> Physics
         //I found that the physics call was interrupting very low ground slams and so going straight to animation from input means you can ground slam from lower
-        if(fastFallDoubleClick) { myAnimator.SetBool(IS_FAST_FALLING, true); } //handles ground slam part 1
+        if (fastFallDoubleClick) { myAnimator.SetBool(IS_FAST_FALLING, true); } //handles ground slam part 1
         if(IsGrounded()) {
+            //if we fast fall cancel roll click then do this
+            //IMPORTANT NOTE: The logic flow for this is INPUT -> ANIMATOR -> PHYSICS
+            if (fastFallCancelRollClick) 
+            { 
+                myAnimator.SetTrigger(TRIGGER_ROLL); 
+                fastFallCancelRollClick = false;
+                isFastFallCanceling = true;
+            }
             //if we are grounded and fastfalling is still true we will intitiate groundshake
             //fastFalling will be set to false right after so that this method can only be called at one frame and not continuously
             //Singleton is for ease of access
-            if (isFastFalling) { CameraShake.Instance.ShakeCamera(); } 
-            myAnimator.SetBool(IS_FAST_FALLING, false); 
-            isFastFalling = false;
+            else if (isFastFalling && !isFastFallCanceling)
+            {
+                CameraShake.Instance.ShakeCamera();
+                myAnimator.SetBool(IS_FAST_FALLING, false);
+                isFastFalling = false;
+            }
         } //handles ground slam part 2 and ground slam exit
     }
 
@@ -184,7 +205,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //rolling management (Important: rolling can only be done if you are running and grounded)
-        if (IsGrounded() && isRunning && isDashAnimationEvent == false)
+        if (IsGrounded() && isRunning && isDashAnimationEvent == false && isFastFalling == false)
         {
             //input can only be checked if the animation has NOT begun yet (this prevents player from spamming and buffering)
             if (isRollAnimationEvent == false && Input.GetKeyDown("left ctrl")) { rollClick = true; }
@@ -238,6 +259,23 @@ public class PlayerController : MonoBehaviour
                 }
 
                 lastClickDownTime = Time.time;
+            }
+            
+        }
+
+        //fast fall cancel input checker
+        RayCastCheck();
+    }
+
+    //FastFallCancel Button Check with RayCast
+    private void RayCastCheck()
+    {
+        rayCastHit2D = Physics2D.Raycast(this.transform.position, Vector2.down, rayCastDistance, groundLayerMask, -Mathf.Infinity, Mathf.Infinity);
+        if(rayCastHit2D.collider != null)
+        {
+            if(Input.GetMouseButtonDown(1) && (isFastFalling || fastFallDoubleClick)) 
+            {
+                fastFallCancelRollClick = true;
             }
             
         }
@@ -312,10 +350,20 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if(isDashAnimationEvent) { DashPhysics(); }
+        else if(isFastFallCanceling) { //this needed to be called before the following else if clause because it was triggering that one first 
+            FastFallCancelRollPhysics(); 
+            //isFastFallCanceling = false; 
+            //this is actually being set to false in the rollAnimationEvent function
+            //this is so only this else if clause is called each time and not the following one!
+            //we want isFastFallCanceling to remain true for the entire duration of this fastFallCancelRoll
+            isFastFalling = false;
+            myAnimator.SetBool(IS_FAST_FALLING, false);
+        }
         else if(isRollAnimationEvent) { RollPhysics(); }
         else if(isGroundSlamAnimationEvent) { GroundSlamPhysics(); }
-        else { 
-            MoveLeftAndRightPhysics();
+        else {
+            if(IsGrounded()) { MoveLeftAndRightGroundedPhysics(); }
+            else if(!IsGrounded()) { MoveLeftAndRightAerialPhysics(); }
             //we will jump if we click the jump button in the InputManager()
             //we actually need to set the jumpClick back to false here because fixedUpdate() is not running synchronously with Update()
             //if we set jumpClick back to false in an else statement in the InputManager(), jumpClick might become false before a FixedUpdate() call
@@ -339,9 +387,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void MoveLeftAndRightPhysics()
+    private void MoveLeftAndRightGroundedPhysics()
     {
-        myRigidBody2D.AddForce(new Vector2(moveHorizontal * horizontalMovementSpeed, 0f)); //move left and right
+        myRigidBody2D.AddForce(new Vector2(moveHorizontal * horizontalMovementSpeed, 0f)); //move left and right grounded
+    }
+
+    private void MoveLeftAndRightAerialPhysics()
+    {
+        myRigidBody2D.AddForce(new Vector2(moveHorizontal * aerialHorizontalMovementSpeed, 0f)); //move left and right aerial
     }
 
     private void DashPhysics()
@@ -354,6 +407,18 @@ public class PlayerController : MonoBehaviour
     private void RollPhysics()
     {
         myRigidBody2D.AddForce(new Vector2(rollSpeed * moveHorizontal, 0f), ForceMode2D.Impulse);
+    }
+
+    private void FastFallCancelRollPhysics()
+    {
+        if(mySpriteRenderer.flipX == true)
+        {
+            myRigidBody2D.AddForce(new Vector2(-fastFallCancelRollSpeed, 0f), ForceMode2D.Impulse);
+        }
+        else if(mySpriteRenderer.flipX == false)
+        {
+            myRigidBody2D.AddForce(new Vector2(fastFallCancelRollSpeed, 0f), ForceMode2D.Impulse);
+        }
     }
 
     private void JumpPhysics()
@@ -414,13 +479,19 @@ public class PlayerController : MonoBehaviour
     private void SetRollAnimationEvent(int x)
     {
         if (x == 1) { isRollAnimationEvent = true; }
-        else { isRollAnimationEvent = false; }
+        else { 
+            isRollAnimationEvent = false;
+            isFastFallCanceling = false;
+        }
     }
 
     private void SetGroundSlamAnimationEvent(int x)
     {
         if(x == 1) { isGroundSlamAnimationEvent = true; }
-        else { isGroundSlamAnimationEvent = false; }
+        else { 
+            isGroundSlamAnimationEvent = false; 
+            myAnimator.ResetTrigger(TRIGGER_DASH); //minor glitch with dash trigger so we reset here to clear the glitch
+        }
     }
     //****************************************************************************
 }

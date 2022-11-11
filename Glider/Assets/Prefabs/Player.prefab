@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalMovementSpeed: 60
+  aerialHorizontalMovementSpeed: 30
   horizontalSpeedLimit: 10
   friction: 10
   crouchFriction: 100
@@ -269,6 +270,8 @@ MonoBehaviour:
   dashNumberLimit: 2
   doubleJumpNumberLimit: 2
   doubleClickDownTime: 0.2
+  rayCastDistance: 5
+  fastFallCancelRollSpeed: 6
 --- !u!61 &946834998
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -100829,6 +100829,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1989018 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8626825706915532727, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6178499910573442612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &76981622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106692,6 +106704,11 @@ PrefabInstance:
       objectReference: {fileID: 776913406}
     - target: {fileID: 482035427375896419, guid: 8ada1cdb14b1611428e1a6809ad0bd65,
         type: 3}
+      propertyPath: loseText
+      value: 
+      objectReference: {fileID: 1989018}
+    - target: {fileID: 482035427375896419, guid: 8ada1cdb14b1611428e1a6809ad0bd65,
+        type: 3}
       propertyPath: levelText
       value: 
       objectReference: {fileID: 5213346130559333315}
@@ -106857,11 +106874,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5213346129926402620, guid: 7a2636dd897db46408097d5f8cd58247,
-        type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5213346130370581690, guid: 7a2636dd897db46408097d5f8cd58247,
         type: 3}
       propertyPath: m_Name
@@ -107186,6 +107198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: End Game Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178499910210974077, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbc0de5ef676efc41adab4a61f4c8ec4, type: 3}

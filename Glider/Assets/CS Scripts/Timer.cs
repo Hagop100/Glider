@@ -32,6 +32,7 @@ public class Timer : MonoBehaviour
         if(timeCountDown == 0)
         {
             LevelController.PauseGame();
+            levelController.SetLoseText();
             levelController.EnableEndGameCanvas();
         }
     }

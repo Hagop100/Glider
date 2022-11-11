@@ -8,13 +8,29 @@ public class LevelController : MonoBehaviour
 {
     [SerializeField] private Canvas endGameCanvas;
     [SerializeField] private Text levelText;
+    [SerializeField] private Text loseText;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Cursor.lockState = CursorLockMode.Confined; //re-enable this when exporting
         ResumeGame(); //sets Time.timeScale to 1
         DisableEndGameCanvas(); //disable endGameCanvas
         SetLevelText(); //sets the level number text
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && !IsGamePaused())
+        {
+            SetPauseMenuText();
+            PauseMenu();
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && IsGamePaused())
+        {
+            LeavePauseMenu();
+        }
+        
     }
 
     //Function for Try Again button
@@ -33,11 +49,13 @@ public class LevelController : MonoBehaviour
     public void EnableEndGameCanvas()
     {
         endGameCanvas.enabled = true;
+        Cursor.visible = true;
     }
 
     public void DisableEndGameCanvas()
     {
         endGameCanvas.enabled = false;
+        Cursor.visible = false;
     }
 
     public static void PauseGame()
@@ -66,5 +84,27 @@ public class LevelController : MonoBehaviour
         int sceneNumber = SceneManager.GetActiveScene().buildIndex;
         sceneNumber++;
         levelText.text = "Level: " + sceneNumber;
+    }
+
+    private void PauseMenu()
+    {
+        PauseGame();
+        EnableEndGameCanvas();
+    }
+
+    private void LeavePauseMenu()
+    {
+        ResumeGame();
+        DisableEndGameCanvas();
+    }
+
+    public void SetPauseMenuText()
+    {
+        loseText.text = "Paused";
+    }
+
+    public void SetLoseText()
+    {
+        loseText.text = "YOU FAILED!";
     }
 }
