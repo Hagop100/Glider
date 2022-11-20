@@ -272,6 +272,11 @@ MonoBehaviour:
   doubleClickDownTime: 0.2
   rayCastDistance: 5
   fastFallCancelRollSpeed: 6
+  groundSlamAudioClip1: {fileID: 8300000, guid: cc6699269b4c1d44ea1e860518b9bb73,
+    type: 3}
+  groundSlamAudioClip2: {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c,
+    type: 3}
+  groundSlamSoundVolume: 0.7
 --- !u!61 &946834998
 BoxCollider2D:
   m_ObjectHideFlags: 0

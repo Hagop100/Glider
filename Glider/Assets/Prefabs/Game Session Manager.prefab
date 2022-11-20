@@ -61,3 +61,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endGameCanvas: {fileID: 0}
   levelText: {fileID: 0}
+  loseText: {fileID: 0}

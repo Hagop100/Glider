@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float doubleClickDownTime = 0.5f;
     [SerializeField] private float rayCastDistance = 5f;
     [SerializeField] private float fastFallCancelRollSpeed = 20f;
+    [SerializeField] private AudioClip groundSlamAudioClip1;
+    [SerializeField] private AudioClip groundSlamAudioClip2;
+    [Range(0.0f, 5.0f)] [SerializeField] private float groundSlamSoundVolume;
 
     //keyboard input variables
     private float moveHorizontal; //input to move left and right (value is +1/-1 at right and left respectively)
@@ -168,6 +171,8 @@ public class PlayerController : MonoBehaviour
             else if (isFastFalling && !isFastFallCanceling)
             {
                 CameraShake.Instance.ShakeCamera();
+                AudioSource.PlayClipAtPoint(groundSlamAudioClip1, this.transform.position, groundSlamSoundVolume);
+                AudioSource.PlayClipAtPoint(groundSlamAudioClip2, this.transform.position, groundSlamSoundVolume/3);
                 myAnimator.SetBool(IS_FAST_FALLING, false);
                 isFastFalling = false;
             }

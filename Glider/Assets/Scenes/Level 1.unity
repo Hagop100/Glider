@@ -101879,6 +101879,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 76981622}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &77146015 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3564653339905299449, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6178499910573442612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &90477995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104038,6 +104050,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 475190701}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &529455560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529455562}
+  - component: {fileID: 529455561}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &529455561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529455560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8656634d1f90b6143a0f1dc48ad6b888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolumeSlider: {fileID: 77146015}
+  sliderValueText: {fileID: 1732559888}
+--- !u!4 &529455562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529455560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &539473976
 GameObject:
   m_ObjectHideFlags: 0
@@ -113051,6 +113108,18 @@ Transform:
   m_Father: {fileID: 1185669057}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1732559888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1732559888, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6178499910573442612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1733617594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115290,6 +115359,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1925228159518956919, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3114599743432194976, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564653339905299449, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 529455561}
     - target: {fileID: 6178499909239130179, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -115409,11 +115493,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: End Game Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 6178499910210974077, guid: cbc0de5ef676efc41adab4a61f4c8ec4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbc0de5ef676efc41adab4a61f4c8ec4, type: 3}
