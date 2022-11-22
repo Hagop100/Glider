@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
         ResumeGame(); //sets Time.timeScale to 1
         DisableEndGameCanvas(); //disable endGameCanvas
         SetLevelText(); //sets the level number text
+        ScoreKeeper.instance.UpdateLevelIndex();
     }
 
     private void Update()

@@ -36,4 +36,9 @@ public class Timer : MonoBehaviour
             levelController.EnableEndGameCanvas();
         }
     }
+
+    private void OnDestroy()
+    {
+        ScoreKeeper.instance.SetBestTimeValue(timeCountDown);
+    }
 }
