@@ -25,6 +25,15 @@ public class ScoreKeeper : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        //Only for debugging!
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            LevelController.GoToNextLevel();
+        }
+    }
+
     //called in the Coin class
     //we had to finesse how the method was called due to the fact that multiple trigger enters were occurring touching a coin
     //so we did an OnDestroy call and that solved the issue HOWEVER
@@ -40,7 +49,6 @@ public class ScoreKeeper : MonoBehaviour
     //called in timer script
     public void SetBestTimeValue(int timeCountDown)
     {
-        int value = bestTimeList[currentLevelIndex];
         bestTimeList[currentLevelIndex] = timeCountDown;
     }
 
@@ -53,5 +61,20 @@ public class ScoreKeeper : MonoBehaviour
         currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         coinCountList.Add(0);
         bestTimeList.Add(0);
+    }
+
+    public void ResetCoinCount()
+    {
+        coinCountList[currentLevelIndex] = 0;
+    }
+
+    public List<int> GetCoinCountList()
+    {
+        return coinCountList;
+    }
+
+    public List<int> GetBestTimeList()
+    {
+        return bestTimeList;
     }
 }

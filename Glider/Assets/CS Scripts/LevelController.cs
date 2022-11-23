@@ -37,6 +37,7 @@ public class LevelController : MonoBehaviour
     //Function for Try Again button
     public void TryAgainButton()
     {
+        ScoreKeeper.instance.ResetCoinCount();
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
     }
