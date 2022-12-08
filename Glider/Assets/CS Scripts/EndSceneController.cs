@@ -17,6 +17,7 @@ public class EndSceneController : MonoBehaviour
 
     public void LoadLevelButton(string levelName)
     {
+        ScoreKeeper.instance.ResetCoinCount(levelName);
         SceneManager.LoadScene(levelName);
     }
 }

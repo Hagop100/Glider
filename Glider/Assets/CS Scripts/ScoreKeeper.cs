@@ -49,7 +49,10 @@ public class ScoreKeeper : MonoBehaviour
     //called in timer script
     public void SetBestTimeValue(int timeCountDown)
     {
-        bestTimeList[currentLevelIndex] = timeCountDown;
+        if(timeCountDown > bestTimeList[currentLevelIndex])
+        {
+            bestTimeList[currentLevelIndex] = timeCountDown;
+        }
     }
 
     //Called in the start method of LevelController to update:
@@ -66,6 +69,22 @@ public class ScoreKeeper : MonoBehaviour
     public void ResetCoinCount()
     {
         coinCountList[currentLevelIndex] = 0;
+    }
+
+    public void ResetCoinCount(string levelName)
+    {
+        if(levelName.Equals("Level 1"))
+        {
+            coinCountList[0] = 0;
+        }
+        else if(levelName.Equals("Level 2"))
+        {
+            coinCountList[1] = 0;
+        }
+        else if(levelName.Equals("Level 3"))
+        {
+            coinCountList[2] = 0;
+        }
     }
 
     public List<int> GetCoinCountList()

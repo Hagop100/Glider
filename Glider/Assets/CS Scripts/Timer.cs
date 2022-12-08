@@ -11,6 +11,7 @@ public class Timer : MonoBehaviour
     [SerializeField] private LevelController levelController;
 
     private int timeCountDown; //container that is updated every frame for the timer
+    private bool didCollideWithFinishLine = false;
 
     // Update is called once per frame
     void Update()
@@ -37,8 +38,17 @@ public class Timer : MonoBehaviour
         }
     }
 
+    public void DidCollide(bool didCollide)
+    {
+        didCollideWithFinishLine = didCollide;
+    }
+
     private void OnDestroy()
     {
-        ScoreKeeper.instance.SetBestTimeValue(timeCountDown);
+        if(didCollideWithFinishLine) //for more explanation see FinishLine script!
+        {
+            ScoreKeeper.instance.SetBestTimeValue(timeCountDown);
+            didCollideWithFinishLine = false;
+        }
     }
 }

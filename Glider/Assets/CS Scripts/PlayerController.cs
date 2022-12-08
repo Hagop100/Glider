@@ -237,14 +237,14 @@ public class PlayerController : MonoBehaviour
 
         //single jump input
         //we only want to single jump if we are grounded, press space, not dashing, not ground-slamming
-        if (IsGrounded() && Input.GetKeyDown("space") && isGroundSlamAnimationEvent == false && isDashAnimationEvent == false && isCrouching == false && isUpLooking == false && isRollAnimationEvent == false) 
+        if (IsGrounded() && Input.GetKeyDown("space") && isGroundSlamAnimationEvent == false && isDashAnimationEvent == false && dashClick == false && isUpLooking == false && isRollAnimationEvent == false) 
         { 
             singleJumpClick = true;
         }
 
         //double jump input as well as Nth jump input
         //can't jump while fastFalling or dashing
-        if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false && isDashAnimationEvent == false && isRollAnimationEvent == false)
+        if (numberOfDoubleJumps < doubleJumpNumberLimit && isFastFalling == false && isDashAnimationEvent == false && dashClick == false && isRollAnimationEvent == false)
         {
             if (isDoubleJumping == false && !IsGrounded() && Input.GetKeyDown("space")) { 
                 doubleJumpClick = true;
@@ -280,6 +280,17 @@ public class PlayerController : MonoBehaviour
 
         //fast fall cancel input checker
         RayCastCheck();
+
+        //Inputting jump and dash on the same frame results in a bug where you auto jump after dash completes
+        //this block of code will solve that
+        if(isDashAnimationEvent && singleJumpClick)
+        {
+            singleJumpClick = false;
+        }
+        if(isDashAnimationEvent && doubleJumpClick)
+        {
+            doubleJumpClick = false;
+        }
     }
 
     //FastFallCancel Button Check with RayCast

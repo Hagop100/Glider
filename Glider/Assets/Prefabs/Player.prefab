@@ -256,7 +256,7 @@ MonoBehaviour:
   aerialHorizontalMovementSpeed: 30
   horizontalSpeedLimit: 10
   friction: 10
-  crouchFriction: 100
+  crouchFriction: 0
   groundSlamFriction: 100
   dashSpeed: 7
   dashSpeedLimit: 15
@@ -277,6 +277,7 @@ MonoBehaviour:
   groundSlamAudioClip2: {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c,
     type: 3}
   groundSlamSoundVolume: 0.7
+  dust: {fileID: 0}
 --- !u!61 &946834998
 BoxCollider2D:
   m_ObjectHideFlags: 0
