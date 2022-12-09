@@ -84,7 +84,6 @@ public class LevelController : MonoBehaviour
     private void SetLevelText()
     {
         int sceneNumber = SceneManager.GetActiveScene().buildIndex;
-        sceneNumber++;
         levelText.text = "Level: " + sceneNumber;
     }
 

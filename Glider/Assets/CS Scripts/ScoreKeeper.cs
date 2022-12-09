@@ -61,7 +61,7 @@ public class ScoreKeeper : MonoBehaviour
     // we can't call it in this script because the start and awake methods only run once
     public void UpdateLevelIndex()
     {
-        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        currentLevelIndex = SceneManager.GetActiveScene().buildIndex - 1;
         coinCountList.Add(0);
         bestTimeList.Add(0);
     }

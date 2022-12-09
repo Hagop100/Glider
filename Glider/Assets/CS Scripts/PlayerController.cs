@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip groundSlamAudioClip1;
     [SerializeField] private AudioClip groundSlamAudioClip2;
     [Range(0.0f, 5.0f)] [SerializeField] private float groundSlamSoundVolume;
+    [Range(0.0f, 1.0f)] [SerializeField] private float dashCancelHaltValue;
+    [SerializeField] private float distanceBetweenImages = 0.1f;
 
     //keyboard input variables
     private float moveHorizontal; //input to move left and right (value is +1/-1 at right and left respectively)
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private const string TRIGGER_DASH = "triggerDash";
     private const string TRIGGER_NTH_JUMP = "triggerNthJump";
     private const string IS_FAST_FALLING = "isFastFalling";
+    private const string TRIGGER_IDLE = "triggerIdle";
     //private const string TRIGGER_GROUND_SLAM = "triggerGroundSlam";
     //private const string IS_FAST_FALL_CANCELING = "isFastFallCanceling";
     //private const string FAST_FALL_CANCEL = "fastFallCancel";
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
     private bool isDoubleJumping = false;
     private bool isFastFalling = false;
     private bool isFastFallCanceling = false;
+    private bool isIdlingAfterDashCancel = false;
 
     //Animation Event Variables
     private bool isDashAnimationEvent = false;
@@ -89,6 +93,9 @@ public class PlayerController : MonoBehaviour
 
     //RayCast
     RaycastHit2D rayCastHit2D;
+
+    //AfterImage
+    private float lastImagePosition;
 
 
     private void Awake()
@@ -110,6 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         if(!LevelController.IsGamePaused()) //if the game is not paused then we want to check for input
         {
+            ResetIdleTrigger(); 
             InputManager();
             AnimatorManager();
 
@@ -123,6 +131,9 @@ public class PlayerController : MonoBehaviour
                 ResetDashCount();
                 ResetDoubleJumpCount();
             }
+
+            DashColorChanger();
+            AfterImageDisplay();
         }
     }
 
@@ -291,6 +302,20 @@ public class PlayerController : MonoBehaviour
         {
             doubleJumpClick = false;
         }
+
+        //dash cancel input checker
+        if(isDashAnimationEvent)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                myAnimator.ResetTrigger(TRIGGER_DASH);
+                myAnimator.SetTrigger(TRIGGER_IDLE);
+                myRigidBody2D.velocity = new Vector2(myRigidBody2D.velocity.x * dashCancelHaltValue, 0f);
+                isIdlingAfterDashCancel = true;
+                isDashAnimationEvent = false;
+                dashClick = false;
+            }
+        }
     }
 
     //FastFallCancel Button Check with RayCast
@@ -304,6 +329,52 @@ public class PlayerController : MonoBehaviour
                 fastFallCancelRollClick = true;
             }
             
+        }
+    }
+
+    //changes color of dash to indicate when cancellable
+    //Lerping this would be a lot nicer but i'm lazy
+    private void DashColorChanger()
+    {
+        if(isDashAnimationEvent)
+        {
+            mySpriteRenderer.color = new Color32(0, 255, 255, 255);
+        }
+        else
+        {
+            mySpriteRenderer.color = new Color32(243, 109, 238, 255);
+        }
+    }
+
+    private void AfterImageDisplay()
+    {
+        if(dashClick)
+        {
+            AfterImageEffect.instance.GetFromPool();
+            lastImagePosition = this.transform.position.x;
+        }
+        else if(isDashAnimationEvent)
+        {
+            if(Mathf.Abs(this.transform.position.x - lastImagePosition) > distanceBetweenImages)
+            {
+                AfterImageEffect.instance.GetFromPool();
+                lastImagePosition = this.transform.position.x;
+            }
+        }
+    }
+
+    //reset idle trigger cuz it gets stuck
+    //In Update() this is called BEFORE InputManager() because if it were called after, it would execute in the same frame.
+    //if that were to happen the trigger would never set
+    //it has to occurr in the next frame and by setting it before isIdlingAfterDashCancel will always evaluate to false first, and then we check input
+    //then it will evaluate to true, then in the next frame it will run
+    //a roundabout way of doing it but it works.
+    private void ResetIdleTrigger()
+    {
+        if(isIdlingAfterDashCancel)
+        {
+            myAnimator.ResetTrigger(TRIGGER_IDLE);
+            isIdlingAfterDashCancel = false;
         }
     }
 
